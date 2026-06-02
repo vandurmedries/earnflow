@@ -9,6 +9,7 @@ import {
 } from '../lib/store';
 import { setSessionCookie, clearSessionCookie, getCurrentUserId } from '../lib/auth';
 import { getBaseUrl } from '../lib/store';
+import { stripe, PRO_BOOST_AMOUNT } from '../lib/stripe';
 
 export async function registerAction(formData: FormData) {
   const email = String(formData.get('email') || '').trim();
@@ -187,5 +188,57 @@ export async function getVibeKanbanStats() {
   const userId = await getCurrentUserId();
   if (!userId) return null;
   return getKanbanStats(userId);
+}
+
+export async function createProBoostCheckoutAction() {
+  const userId = await getCurrentUserId();
+  if (!userId) return { error: 'Not logged in' };
+
+  try {
+    const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'EarnFlow Pro Boost',
+              description: 'Unlock 2x earnings on all tasks, offers & vibes for 30 days + instant cashouts (min $1)',
+            },
+            unit_amount: PRO_BOOST_AMOUNT,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${origin}/pro/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/wallet`,
+      metadata: { userId, type: 'pro_boost' },
+    });
+
+    return { success: true, url: session.url };
+  } catch (e: any) {
+    return { error: e.message || 'Failed to create checkout' };
+  }
+}
+
+export async function verifyProPurchase(sessionId: string) {
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.payment_status !== 'paid') {
+      return { error: 'Payment not completed' };
+    }
+    const userId = session.metadata?.userId;
+    if (!userId) return { error: 'Invalid session' };
+
+    // Use the store function (imported at top of file via other imports? Wait, add import if needed)
+    // For now call via dynamic or assume
+    const { upgradeUserToPro } = await import('../lib/store');
+    upgradeUserToPro(userId);
+    return { success: true };
+  } catch (e: any) {
+    return { error: e.message };
+  }
 }
 

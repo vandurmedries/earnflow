@@ -13,6 +13,7 @@ Production-ready demo of a complete online money earning platform. Users earn re
 - **Full Wallet + Withdrawals** — Real balance tracking, transaction history (positive + negative), withdrawal requests (min $5) to PayPal/crypto/bank/venmo.
 - **Leaderboard** — Live global top earners.
 - **Auto-Earn Mode** (demo) — Passive small credits every ~38s while page is open.
+- **Vibe Kanban** — Beautiful drag & drop board (Ideate → Flow → Ship → Banked). Create cards with potential rewards. Move to Banked = instant real earnings + flow bonus. Perfect for organizing multiple income streams with good vibes.
 - **Admin Panel** (`/admin`) — Review/approve/reject all withdrawal requests (password: `admin123`).
 - **Beautiful dark UI** — Mobile friendly, confetti on earnings, instant feedback.
 

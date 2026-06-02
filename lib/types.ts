@@ -12,6 +12,7 @@ export interface User {
   lastClaimDate: string | null; // YYYY-MM-DD
   tasksCompleted: number;
   joinedAt: string;
+  isPro: boolean; // Pro boost for 2x earnings + instant cashouts etc.
 }
 
 export interface Task {

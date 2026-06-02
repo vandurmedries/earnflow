@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Nav from '../../components/Nav';
 import BalanceCard from '../../components/BalanceCard';
 import EarningHistory from '../../components/EarningHistory';
-import { getCurrentUser, getEarningsHistory, requestWithdrawAction } from '../actions';
+import { getCurrentUser, getEarningsHistory, requestWithdrawAction, createProBoostCheckoutAction } from '../actions';
 import { toast } from 'sonner';
 import { User } from '../../lib/types';
 
@@ -38,6 +38,15 @@ export default function WalletPage() {
     }
   }
 
+  async function handleBuyPro() {
+    const res = await createProBoostCheckoutAction();
+    if (res.error) {
+      toast.error(res.error);
+    } else if (res.url) {
+      window.location.href = res.url; // redirect to Stripe
+    }
+  }
+
   if (!user) return null;
 
   return (
@@ -59,7 +68,7 @@ export default function WalletPage() {
             <form onSubmit={handleWithdraw} className="space-y-3 text-sm">
               <div>
                 <label className="text-xs text-zinc-400">AMOUNT (USD)</label>
-                <input name="amount" type="number" step="0.01" min="5" max={user.balance} defaultValue={Math.min(10, user.balance).toFixed(2)} required className="w-full bg-black border border-white/10 px-4 py-2 rounded-xl font-mono" />
+                <input name="amount" type="number" step="0.01" min={user.isPro ? 1 : 5} max={user.balance} defaultValue={Math.min(user.isPro ? 5 : 10, user.balance).toFixed(2)} required className="w-full bg-black border border-white/10 px-4 py-2 rounded-xl font-mono" />
               </div>
               <div>
                 <label className="text-xs text-zinc-400">METHOD</label>
@@ -78,10 +87,29 @@ export default function WalletPage() {
               <button disabled={loading} type="submit" className="btn-primary w-full py-2.5 rounded-xl font-medium mt-1">
                 {loading ? 'Submitting request...' : 'Submit Withdrawal Request'}
               </button>
-              <div className="text-[10px] text-amber-400/80">Min $5. Demo mode — requests are logged. In production this triggers Stripe Connect or PayPal Payouts.</div>
+              <div className="text-[10px] text-amber-400/80">Min ${user.isPro ? '1' : '5'} {user.isPro ? '(Pro)' : ''}. Real payouts use Stripe Connect / PayPal in production.</div>
             </form>
           </div>
         </div>
+
+        {/* Pro Boost upsell */}
+        {!user.isPro && (
+          <div className="mt-6 card rounded-3xl p-6 border border-violet-500/30 bg-violet-950/20">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <div className="font-semibold text-lg flex items-center gap-2">🚀 Go Pro — 2x your earnings</div>
+                <div className="text-sm text-zinc-400 mt-1">Unlock 2× rewards on tasks, offers &amp; Vibe Kanban. Instant cashouts (min $1). 30 days.</div>
+              </div>
+              <button onClick={handleBuyPro} className="btn-primary px-8 py-2.5 rounded-2xl font-medium whitespace-nowrap">
+                Buy Pro Boost — $4.99
+              </button>
+            </div>
+            <div className="text-[10px] text-violet-400/70 mt-2">One-time payment. Powered by Stripe. Real money in = real boost.</div>
+          </div>
+        )}
+        {user.isPro && (
+          <div className="mt-6 text-emerald-400 text-sm px-1">✅ You are Pro — 2x earnings active + instant cashouts enabled.</div>
+        )}
 
         <div className="mt-8">
           <div className="font-semibold mb-3 px-1">Transaction history</div>

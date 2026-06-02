@@ -39,9 +39,9 @@ function seedDemoData() {
   if (users.size > 0) return;
 
   const demoUsers: User[] = [
-    { id: 'u_demo1', email: 'demo@earnflow.app', name: 'Alex Rivera', passwordHash: '', balance: 47.85, totalEarned: 184.3, referralCode: 'EF-ALEX', referredBy: null, level: 'Gold', streak: 12, lastClaimDate: new Date(Date.now() - 86400000).toISOString().split('T')[0], tasksCompleted: 87, joinedAt: '2025-04-12' },
-    { id: 'u_demo2', email: 'sam@demo.io', name: 'Sam Chen', passwordHash: '', balance: 29.4, totalEarned: 97.65, referralCode: 'EF-SAM', referredBy: 'EF-ALEX', level: 'Silver', streak: 5, lastClaimDate: new Date().toISOString().split('T')[0], tasksCompleted: 41, joinedAt: '2025-05-01' },
-    { id: 'u_demo3', email: 'jordan@demo.dev', name: 'Jordan Lee', passwordHash: '', balance: 112.9, totalEarned: 312.8, referralCode: 'EF-JORD', referredBy: null, level: 'Platinum', streak: 28, lastClaimDate: new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0], tasksCompleted: 156, joinedAt: '2025-03-08' },
+    { id: 'u_demo1', email: 'demo@earnflow.app', name: 'Alex Rivera', passwordHash: '', balance: 47.85, totalEarned: 184.3, referralCode: 'EF-ALEX', referredBy: null, level: 'Gold', streak: 12, lastClaimDate: new Date(Date.now() - 86400000).toISOString().split('T')[0], tasksCompleted: 87, joinedAt: '2025-04-12', isPro: false },
+    { id: 'u_demo2', email: 'sam@demo.io', name: 'Sam Chen', passwordHash: '', balance: 29.4, totalEarned: 97.65, referralCode: 'EF-SAM', referredBy: 'EF-ALEX', level: 'Silver', streak: 5, lastClaimDate: new Date().toISOString().split('T')[0], tasksCompleted: 41, joinedAt: '2025-05-01', isPro: false },
+    { id: 'u_demo3', email: 'jordan@demo.dev', name: 'Jordan Lee', passwordHash: '', balance: 112.9, totalEarned: 312.8, referralCode: 'EF-JORD', referredBy: null, level: 'Platinum', streak: 28, lastClaimDate: new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0], tasksCompleted: 156, joinedAt: '2025-03-08', isPro: false },
   ];
 
   for (const u of demoUsers) {
@@ -133,6 +133,7 @@ export async function registerUser(email: string, name: string, password: string
     lastClaimDate: null,
     tasksCompleted: 0,
     joinedAt: new Date().toISOString().split('T')[0],
+    isPro: false,
   };
 
   users.set(id, user);
@@ -217,11 +218,19 @@ export function sanitizeUser(u: User) {
 }
 
 function addEarning(userId: string, amount: number, source: Earning['source'], description: string) {
+  const user = users.get(userId)!;
+  let finalAmount = amount;
+  // Pro boost: 2x earnings on most sources (except withdrawals/bonuses sometimes)
+  if (user.isPro && ['task', 'daily', 'offer', 'vibe'].includes(source)) {
+    finalAmount = Math.round(amount * 2 * 100) / 100;
+    description = `${description} (Pro 2x boost)`;
+  }
+
   const list = earnings.get(userId) || [];
   const e: Earning = {
     id: generateId('earn'),
     userId,
-    amount,
+    amount: finalAmount,
     source,
     description,
     createdAt: new Date().toISOString(),
@@ -229,9 +238,8 @@ function addEarning(userId: string, amount: number, source: Earning['source'], d
   list.unshift(e);
   earnings.set(userId, list.slice(0, 200)); // cap history
 
-  const user = users.get(userId)!;
-  user.balance += amount;
-  user.totalEarned += amount;
+  user.balance += finalAmount;
+  user.totalEarned += finalAmount;
   user.level = getLevel(user.totalEarned);
 }
 
@@ -341,7 +349,8 @@ export function getReferralStats(userId: string) {
 export function requestWithdrawal(userId: string, amount: number, method: WithdrawalRequest['method'], destination: string): WithdrawalRequest {
   const user = users.get(userId);
   if (!user) throw new Error('User not found');
-  if (amount < 5) throw new Error('Minimum withdrawal is $5.00');
+  const min = user.isPro ? 1 : 5;
+  if (amount < min) throw new Error(`Minimum withdrawal is $${min}.00${user.isPro ? ' (Pro benefit)' : ''}`);
   if (amount > user.balance) throw new Error('Insufficient balance');
 
   user.balance -= amount;
@@ -458,6 +467,18 @@ export function creditPassive(userId: string, amount: number, reason: string) {
 // For live link in UI
 export function getBaseUrl() {
   return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+}
+
+export function upgradeUserToPro(userId: string) {
+  const user = users.get(userId);
+  if (!user) throw new Error('User not found');
+  user.isPro = true;
+  return user;
+}
+
+export function isUserPro(userId: string): boolean {
+  const user = users.get(userId);
+  return !!user?.isPro;
 }
 
 // ========== VIBE KANBAN (the good vibes edition) ==========
