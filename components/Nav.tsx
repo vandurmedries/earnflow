@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LogOut, LayoutDashboard, ListTodo, Users, Wallet, Gift, Trophy } from 'lucide-react';
+import { LogOut, LayoutDashboard, ListTodo, Users, Wallet, Gift, Trophy, Kanban } from 'lucide-react';
 
 const links = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/tasks', label: 'Tasks', icon: ListTodo },
   { href: '/offers', label: 'Offers', icon: Gift },
+  { href: '/vibe-kanban', label: 'Vibe Kanban', icon: Kanban },
   { href: '/referrals', label: 'Referrals', icon: Users },
   { href: '/wallet', label: 'Wallet', icon: Wallet },
   { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },

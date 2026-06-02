@@ -4,7 +4,8 @@ import { redirect } from 'next/navigation';
 import {
   registerUser, loginUser, claimDaily, completeTask, completeOffer,
   requestWithdrawal, getUserDashboard, getUserEarnings, getReferralStats,
-  sanitizeUser, getUserById, creditPassive
+  sanitizeUser, getUserById, creditPassive,
+  getKanbanBoard, createVibeCard, moveVibeCard, deleteVibeCard, getKanbanStats
 } from '../lib/store';
 import { setSessionCookie, clearSessionCookie, getCurrentUserId } from '../lib/auth';
 import { getBaseUrl } from '../lib/store';
@@ -130,3 +131,61 @@ export async function getCurrentUser() {
   if (!userId) return null;
   return getUserById(userId);
 }
+
+// ========== VIBE KANBAN ACTIONS ==========
+
+export async function getVibeKanban() {
+  const userId = await getCurrentUserId();
+  if (!userId) return null;
+  return getKanbanBoard(userId);
+}
+
+export async function createVibeCardAction(formData: FormData) {
+  const userId = await getCurrentUserId();
+  if (!userId) return { error: 'Not logged in' };
+
+  const title = String(formData.get('title') || '').trim();
+  const description = String(formData.get('description') || '').trim() || undefined;
+  const rewardStr = String(formData.get('reward') || '');
+  const vibe = String(formData.get('vibe') || 'chill');
+
+  if (!title) return { error: 'Title is required' };
+
+  const reward = rewardStr ? parseFloat(rewardStr) : undefined;
+
+  try {
+    const card = createVibeCard(userId, { title, description, reward, vibe });
+    return { success: true, card };
+  } catch (e: any) {
+    return { error: e.message || 'Failed to create vibe' };
+  }
+}
+
+export async function moveVibeCardAction(cardId: string, toColumn: string) {
+  const userId = await getCurrentUserId();
+  if (!userId) return { error: 'Not logged in' };
+  try {
+    const card = moveVibeCard(userId, cardId, toColumn as any);
+    return { success: true, card };
+  } catch (e: any) {
+    return { error: e.message };
+  }
+}
+
+export async function deleteVibeCardAction(cardId: string) {
+  const userId = await getCurrentUserId();
+  if (!userId) return { error: 'Not logged in' };
+  try {
+    deleteVibeCard(userId, cardId);
+    return { success: true };
+  } catch (e: any) {
+    return { error: e.message };
+  }
+}
+
+export async function getVibeKanbanStats() {
+  const userId = await getCurrentUserId();
+  if (!userId) return null;
+  return getKanbanStats(userId);
+}
+

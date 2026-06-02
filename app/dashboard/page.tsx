@@ -4,7 +4,7 @@ import Nav from '../../components/Nav';
 import BalanceCard from '../../components/BalanceCard';
 import EarningHistory from '../../components/EarningHistory';
 import Link from 'next/link';
-import { ArrowRight, Calendar, Users } from 'lucide-react';
+import { ArrowRight, Calendar, Users, Kanban } from 'lucide-react';
 
 export default async function Dashboard() {
   const user = await getCurrentUser();
@@ -44,6 +44,9 @@ export default async function Dashboard() {
               </Link>
               <Link href="/offers" className="flex justify-between items-center px-4 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/5 group">
                 Browse high-value offers <ArrowRight className="group-hover:translate-x-0.5 transition" size={16} />
+              </Link>
+              <Link href="/vibe-kanban" className="flex justify-between items-center px-4 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/5 group">
+                <span className="flex items-center gap-2"><Kanban size={15} /> Open Vibe Kanban</span> <ArrowRight className="group-hover:translate-x-0.5 transition" size={16} />
               </Link>
             </div>
 

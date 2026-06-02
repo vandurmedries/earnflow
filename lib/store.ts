@@ -1,4 +1,4 @@
-import { User, Task, Earning, WithdrawalRequest, Referral, Offer, LeaderboardEntry } from './types';
+import { User, Task, Earning, WithdrawalRequest, Referral, Offer, LeaderboardEntry, KanbanCard, KanbanColumnId } from './types';
 import bcrypt from 'bcryptjs';
 
 // In-memory store (persists for the lifetime of the server instance / deployment replica)
@@ -9,6 +9,7 @@ let withdrawals = new Map<string, WithdrawalRequest[]>();
 let referrals = new Map<string, Referral[]>();
 let completedTasks = new Map<string, Set<string>>(); // userId -> set of taskId completed today
 let lastDailyClaim = new Map<string, string>(); // userId -> date
+let kanbanBoards = new Map<string, KanbanCard[]>(); // userId -> all cards (column lives on the card)
 
 // Predefined high-quality microtasks (realistic rewards for micro-work platforms)
 const DEFAULT_TASKS: Task[] = [
@@ -63,6 +64,20 @@ function seedDemoData() {
   // Global earnings for demo2 from referral
   const demo2Earnings = earnings.get('u_demo2')!;
   demo2Earnings.push({ id: 'e_ref', userId: 'u_demo2', amount: 0.35, source: 'referral', description: 'Referral bonus (10% of referred earnings)', createdAt: new Date(Date.now() - 1800000).toISOString() });
+
+  // Seed Vibe Kanban demo data (beautiful earning pipeline vibes)
+  const now = new Date().toISOString();
+  kanbanBoards.set('u_demo1', [
+    { id: 'k1', title: 'Launch affiliate site for Belgian brands', description: 'Research 5 local brands + set up landing', reward: 12, vibe: 'grind', column: 'flow', createdAt: now },
+    { id: 'k2', title: 'Record 3 short Reels about microtasks', reward: 7.5, vibe: 'creative', column: 'ship', createdAt: now },
+    { id: 'k3', title: 'Optimize referral copy for Twitter', description: 'Test 2 hooks', reward: 4, vibe: 'chill', column: 'ideate', createdAt: now },
+    { id: 'k4', title: 'Finish Upwork proposal template', reward: 9, vibe: 'grind', column: 'flow', createdAt: now },
+  ]);
+
+  kanbanBoards.set('u_demo3', [
+    { id: 'k5', title: 'Daily LinkedIn value posts for 7 days', reward: 15, vibe: 'social', column: 'banked', createdAt: now },
+    { id: 'k6', title: 'Build simple Notion earning tracker', reward: 6, vibe: 'creative', column: 'ship', createdAt: now },
+  ]);
 }
 
 seedDemoData();
@@ -125,6 +140,7 @@ export async function registerUser(email: string, name: string, password: string
   withdrawals.set(id, []);
   referrals.set(id, []);
   completedTasks.set(id, new Set());
+  kanbanBoards.set(id, []); // fresh vibe kanban for new user
 
   // Welcome earning
   addEarning(id, 0.5, 'bonus', 'Welcome bonus - start earning now!');
@@ -443,3 +459,81 @@ export function creditPassive(userId: string, amount: number, reason: string) {
 export function getBaseUrl() {
   return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 }
+
+// ========== VIBE KANBAN (the good vibes edition) ==========
+
+export const VIBE_COLUMNS = [
+  { id: 'ideate' as const, label: 'Ideate', icon: '🌱', vibeColor: 'violet' },
+  { id: 'flow' as const, label: 'In the Flow', icon: '⚡', vibeColor: 'amber' },
+  { id: 'ship' as const, label: 'Ship It', icon: '🚀', vibeColor: 'sky' },
+  { id: 'banked' as const, label: 'Banked', icon: '🏦', vibeColor: 'emerald' },
+] as const;
+
+export type VibeColumn = typeof VIBE_COLUMNS[number];
+
+export function getKanbanBoard(userId: string) {
+  const cards = (kanbanBoards.get(userId) || []).slice(); // copy
+  return { cards, columns: VIBE_COLUMNS };
+}
+
+export function createVibeCard(
+  userId: string,
+  input: { title: string; description?: string; reward?: number; vibe?: string }
+) {
+  const user = users.get(userId);
+  if (!user) throw new Error('User not found');
+
+  const card: KanbanCard = {
+    id: generateId('vibe'),
+    title: input.title.trim().slice(0, 80),
+    description: input.description ? input.description.trim().slice(0, 200) : undefined,
+    reward: input.reward ? Math.max(0.5, Math.round(input.reward * 100) / 100) : undefined,
+    vibe: input.vibe || 'chill',
+    column: 'ideate',
+    createdAt: new Date().toISOString(),
+  };
+
+  const list = kanbanBoards.get(userId) || [];
+  list.unshift(card);
+  kanbanBoards.set(userId, list);
+  return card;
+}
+
+export function moveVibeCard(userId: string, cardId: string, toColumn: KanbanColumnId) {
+  const list = kanbanBoards.get(userId) || [];
+  const card = list.find((c) => c.id === cardId);
+  if (!card) throw new Error('Vibe card not found');
+
+  const previousColumn = card.column;
+  card.column = toColumn;
+
+  // Cash the vibe when it reaches banked (one time reward + tiny bonus for using the tool)
+  if (toColumn === 'banked' && previousColumn !== 'banked' && card.reward) {
+    addEarning(userId, card.reward, 'vibe', `Vibe cashed: ${card.title}`);
+    // Using the Kanban itself is an earning activity
+    addEarning(userId, 0.4, 'bonus', 'Vibe Kanban flow bonus');
+  }
+
+  return card;
+}
+
+export function deleteVibeCard(userId: string, cardId: string) {
+  const list = kanbanBoards.get(userId) || [];
+  const idx = list.findIndex((c) => c.id === cardId);
+  if (idx >= 0) {
+    list.splice(idx, 1);
+    kanbanBoards.set(userId, list);
+  }
+}
+
+export function getKanbanStats(userId: string) {
+  const cards = kanbanBoards.get(userId) || [];
+  const banked = cards.filter((c) => c.column === 'banked');
+  const earnedFromVibes = banked.reduce((sum, c) => sum + (c.reward || 0), 0);
+  return {
+    totalCards: cards.length,
+    banked: banked.length,
+    earnedFromVibes: Math.round(earnedFromVibes * 100) / 100,
+  };
+}
+

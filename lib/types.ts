@@ -29,7 +29,7 @@ export interface Earning {
   id: string;
   userId: string;
   amount: number;
-  source: 'task' | 'daily' | 'referral' | 'offer' | 'bonus' | 'passive';
+  source: 'task' | 'daily' | 'referral' | 'offer' | 'bonus' | 'passive' | 'vibe';
   description: string;
   createdAt: string;
 }
@@ -72,3 +72,21 @@ export type LeaderboardEntry = {
   tasksCompleted: number;
   level: string;
 };
+
+export interface KanbanCard {
+  id: string;
+  title: string;
+  description?: string;
+  reward?: number; // bonus earned when moved to 'banked'
+  vibe?: string; // chill | grind | creative | social | hustle
+  column: KanbanColumnId;
+  createdAt: string;
+}
+
+export interface KanbanBoard {
+  cards: KanbanCard[];
+  // columns are fixed for "vibe" feel:
+  // 'ideate' | 'flow' | 'ship' | 'banked'
+}
+
+export type KanbanColumnId = 'ideate' | 'flow' | 'ship' | 'banked';
