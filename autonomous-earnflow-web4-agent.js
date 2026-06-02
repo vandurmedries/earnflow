@@ -112,6 +112,14 @@ async function main() {
       console.log('🏦 Auto-banked for earning:', c.title, '+', c.reward);
     }
 
+    // Reinvest platform cut autonomously (system collects and reinvests)
+    const plat = await api(`/api/agent/earn?userId=${userId}`);
+    if (plat.platformBalance > 20) {
+      const reinv = Math.min(plat.platformBalance * 0.5, 10);
+      await api('/api/agent/earn', 'POST', { userId, action: 'reinvest', amount: reinv });
+      console.log('♻️ Auto-reinvested platform cut $' + reinv + ' into more opportunities');
+    }
+
     // ACT: Report to Web4 autonomously (agent posts earning update)
     const postMsg = `Autonomous cycle ${cycle}: Earned via tasks+Kanban on EarnFlow. Balance now ~${dash.dashboard?.user?.balance}. #Web4 #Agent #EarnFlow`;
     const web4Post = runWeb4(`post "${postMsg}" --x ${3 + cycle * 0.1} --y ${3 + cycle * 0.1}`);

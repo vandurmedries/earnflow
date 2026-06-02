@@ -1,0 +1,577 @@
+{
+  "users": {
+    "u_demo1": {
+      "id": "u_demo1",
+      "email": "demo@earnflow.app",
+      "name": "Alex Rivera",
+      "passwordHash": "",
+      "balance": 47.85,
+      "totalEarned": 184.3,
+      "referralCode": "EF-ALEX",
+      "referredBy": null,
+      "level": "Gold",
+      "streak": 12,
+      "lastClaimDate": "2026-06-01",
+      "tasksCompleted": 87,
+      "joinedAt": "2025-04-12",
+      "isPro": false
+    },
+    "u_demo2": {
+      "id": "u_demo2",
+      "email": "sam@demo.io",
+      "name": "Sam Chen",
+      "passwordHash": "",
+      "balance": 29.4,
+      "totalEarned": 97.65,
+      "referralCode": "EF-SAM",
+      "referredBy": "EF-ALEX",
+      "level": "Silver",
+      "streak": 5,
+      "lastClaimDate": "2026-06-02",
+      "tasksCompleted": 41,
+      "joinedAt": "2025-05-01",
+      "isPro": false
+    },
+    "u_demo3": {
+      "id": "u_demo3",
+      "email": "jordan@demo.dev",
+      "name": "Jordan Lee",
+      "passwordHash": "",
+      "balance": 112.9,
+      "totalEarned": 312.8,
+      "referralCode": "EF-JORD",
+      "referredBy": null,
+      "level": "Platinum",
+      "streak": 28,
+      "lastClaimDate": "2026-05-31",
+      "tasksCompleted": 156,
+      "joinedAt": "2025-03-08",
+      "isPro": false
+    },
+    "u_5xnyyhak": {
+      "id": "u_5xnyyhak",
+      "email": "web4-agent-1780401555902@earnflow.test",
+      "name": "Web4 Autonomous Earner",
+      "passwordHash": "$2b$10$TPrpaP1gASrPEatMH5xGI.NseAYSZQ5U0Nt9uxcgiCB5Z72nmsw7K",
+      "balance": 62.66,
+      "totalEarned": 62.66,
+      "referralCode": "EF-WEBA809",
+      "referredBy": null,
+      "level": "Silver",
+      "streak": 1,
+      "lastClaimDate": "2026-06-02",
+      "tasksCompleted": 2,
+      "joinedAt": "2026-06-02",
+      "isPro": false
+    },
+    "u_72k0pz00": {
+      "id": "u_72k0pz00",
+      "email": "web4-agent-1780401610356@earnflow.test",
+      "name": "Web4 Autonomous Earner",
+      "passwordHash": "$2b$10$Rb9J/dCu33fZUjWVXE83buqHpdtPyiV.k3zIAWOWJI4G8vhCVnxx2",
+      "balance": 42.66,
+      "totalEarned": 42.66,
+      "referralCode": "EF-WEBA574",
+      "referredBy": null,
+      "level": "Silver",
+      "streak": 1,
+      "lastClaimDate": "2026-06-02",
+      "tasksCompleted": 2,
+      "joinedAt": "2026-06-02",
+      "isPro": false
+    }
+  },
+  "earnings": {
+    "u_demo1": [
+      {
+        "id": "e1",
+        "userId": "u_demo1",
+        "amount": 2.4,
+        "source": "task",
+        "description": "Product Review Survey",
+        "createdAt": "2026-06-02T10:59:15.979Z"
+      },
+      {
+        "id": "e2",
+        "userId": "u_demo1",
+        "amount": 1.85,
+        "source": "task",
+        "description": "AI Image Labeling",
+        "createdAt": "2026-06-02T09:59:15.979Z"
+      },
+      {
+        "id": "e3",
+        "userId": "u_demo1",
+        "amount": 0.95,
+        "source": "daily",
+        "description": "Daily streak bonus (day 12)",
+        "createdAt": "2026-06-01T11:59:15.979Z"
+      }
+    ],
+    "u_demo2": [
+      {
+        "id": "e1",
+        "userId": "u_demo2",
+        "amount": 2.4,
+        "source": "task",
+        "description": "Product Review Survey",
+        "createdAt": "2026-06-02T10:59:15.979Z"
+      },
+      {
+        "id": "e2",
+        "userId": "u_demo2",
+        "amount": 1.85,
+        "source": "task",
+        "description": "AI Image Labeling",
+        "createdAt": "2026-06-02T09:59:15.979Z"
+      },
+      {
+        "id": "e3",
+        "userId": "u_demo2",
+        "amount": 0.95,
+        "source": "daily",
+        "description": "Daily streak bonus (day 12)",
+        "createdAt": "2026-06-01T11:59:15.979Z"
+      },
+      {
+        "id": "e_ref",
+        "userId": "u_demo2",
+        "amount": 0.35,
+        "source": "referral",
+        "description": "Referral bonus (10% of referred earnings)",
+        "createdAt": "2026-06-02T11:29:15.979Z"
+      }
+    ],
+    "u_demo3": [
+      {
+        "id": "e1",
+        "userId": "u_demo3",
+        "amount": 2.4,
+        "source": "task",
+        "description": "Product Review Survey",
+        "createdAt": "2026-06-02T10:59:15.979Z"
+      },
+      {
+        "id": "e2",
+        "userId": "u_demo3",
+        "amount": 1.85,
+        "source": "task",
+        "description": "AI Image Labeling",
+        "createdAt": "2026-06-02T09:59:15.979Z"
+      },
+      {
+        "id": "e3",
+        "userId": "u_demo3",
+        "amount": 0.95,
+        "source": "daily",
+        "description": "Daily streak bonus (day 12)",
+        "createdAt": "2026-06-01T11:59:15.979Z"
+      }
+    ],
+    "u_5xnyyhak": [
+      {
+        "id": "earn_go07rsbr",
+        "userId": "u_5xnyyhak",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T11:59:35.515Z"
+      },
+      {
+        "id": "earn_dnk8l7h0",
+        "userId": "u_5xnyyhak",
+        "amount": 12,
+        "source": "vibe",
+        "description": "Vibe cashed: Autonomous Web4 post strategy 3",
+        "createdAt": "2026-06-02T11:59:35.514Z"
+      },
+      {
+        "id": "earn_pp9yghi6",
+        "userId": "u_5xnyyhak",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T11:59:35.509Z"
+      },
+      {
+        "id": "earn_m2s1p7av",
+        "userId": "u_5xnyyhak",
+        "amount": 7.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Auto-optimize referral for agent economy",
+        "createdAt": "2026-06-02T11:59:35.509Z"
+      },
+      {
+        "id": "earn_rcor4dyz",
+        "userId": "u_5xnyyhak",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T11:59:26.004Z"
+      },
+      {
+        "id": "earn_gdzfa4nn",
+        "userId": "u_5xnyyhak",
+        "amount": 11.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Autonomous Web4 post strategy 2",
+        "createdAt": "2026-06-02T11:59:26.004Z"
+      },
+      {
+        "id": "earn_cakcii7z",
+        "userId": "u_5xnyyhak",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T11:59:26.000Z"
+      },
+      {
+        "id": "earn_b4rnafr2",
+        "userId": "u_5xnyyhak",
+        "amount": 7.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Auto-optimize referral for agent economy",
+        "createdAt": "2026-06-02T11:59:26.000Z"
+      },
+      {
+        "id": "earn_g4zjo7to",
+        "userId": "u_5xnyyhak",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T11:59:19.460Z"
+      },
+      {
+        "id": "earn_bh0jdfmu",
+        "userId": "u_5xnyyhak",
+        "amount": 10.4,
+        "source": "vibe",
+        "description": "Vibe cashed: Autonomous Web4 post strategy 1",
+        "createdAt": "2026-06-02T11:59:19.460Z"
+      },
+      {
+        "id": "earn_05rjqzrz",
+        "userId": "u_5xnyyhak",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T11:59:19.457Z"
+      },
+      {
+        "id": "earn_3jh12fv3",
+        "userId": "u_5xnyyhak",
+        "amount": 7.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Auto-optimize referral for agent economy",
+        "createdAt": "2026-06-02T11:59:19.457Z"
+      },
+      {
+        "id": "earn_a80zrtmd",
+        "userId": "u_5xnyyhak",
+        "amount": 1.92,
+        "source": "task",
+        "description": "Product Review Survey",
+        "createdAt": "2026-06-02T11:59:19.416Z"
+      },
+      {
+        "id": "earn_ig730iwz",
+        "userId": "u_5xnyyhak",
+        "amount": 1.48,
+        "source": "task",
+        "description": "AI Image Labeling",
+        "createdAt": "2026-06-02T11:59:19.412Z"
+      },
+      {
+        "id": "earn_vaq2yjc7",
+        "userId": "u_5xnyyhak",
+        "amount": 0.6599999999999999,
+        "source": "daily",
+        "description": "Daily login bonus (streak 1 days)",
+        "createdAt": "2026-06-02T11:59:19.383Z"
+      },
+      {
+        "id": "earn_xqot5l1h",
+        "userId": "u_5xnyyhak",
+        "amount": 0.5,
+        "source": "bonus",
+        "description": "Welcome bonus - start earning now!",
+        "createdAt": "2026-06-02T11:59:16.074Z"
+      }
+    ],
+    "u_72k0pz00": [
+      {
+        "id": "earn_vf027ddl",
+        "userId": "u_72k0pz00",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T12:00:23.089Z"
+      },
+      {
+        "id": "earn_dsflus1i",
+        "userId": "u_72k0pz00",
+        "amount": 11.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Autonomous Web4 post strategy 2",
+        "createdAt": "2026-06-02T12:00:23.089Z"
+      },
+      {
+        "id": "earn_bm1f868m",
+        "userId": "u_72k0pz00",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T12:00:23.084Z"
+      },
+      {
+        "id": "earn_7iymct0k",
+        "userId": "u_72k0pz00",
+        "amount": 7.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Auto-optimize referral for agent economy",
+        "createdAt": "2026-06-02T12:00:23.083Z"
+      },
+      {
+        "id": "earn_3xex1pj3",
+        "userId": "u_72k0pz00",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T12:00:13.865Z"
+      },
+      {
+        "id": "earn_el9dmpg3",
+        "userId": "u_72k0pz00",
+        "amount": 10.4,
+        "source": "vibe",
+        "description": "Vibe cashed: Autonomous Web4 post strategy 1",
+        "createdAt": "2026-06-02T12:00:13.864Z"
+      },
+      {
+        "id": "earn_srsrk5bk",
+        "userId": "u_72k0pz00",
+        "amount": 0.4,
+        "source": "bonus",
+        "description": "Vibe Kanban flow bonus",
+        "createdAt": "2026-06-02T12:00:13.860Z"
+      },
+      {
+        "id": "earn_m3n77qv2",
+        "userId": "u_72k0pz00",
+        "amount": 7.2,
+        "source": "vibe",
+        "description": "Vibe cashed: Auto-optimize referral for agent economy",
+        "createdAt": "2026-06-02T12:00:13.860Z"
+      },
+      {
+        "id": "earn_zh982403",
+        "userId": "u_72k0pz00",
+        "amount": 1.92,
+        "source": "task",
+        "description": "Product Review Survey",
+        "createdAt": "2026-06-02T12:00:13.815Z"
+      },
+      {
+        "id": "earn_02s4d2al",
+        "userId": "u_72k0pz00",
+        "amount": 1.48,
+        "source": "task",
+        "description": "AI Image Labeling",
+        "createdAt": "2026-06-02T12:00:13.810Z"
+      },
+      {
+        "id": "earn_pc2plobw",
+        "userId": "u_72k0pz00",
+        "amount": 0.6599999999999999,
+        "source": "daily",
+        "description": "Daily login bonus (streak 1 days)",
+        "createdAt": "2026-06-02T12:00:13.771Z"
+      },
+      {
+        "id": "earn_s5zyosk2",
+        "userId": "u_72k0pz00",
+        "amount": 0.5,
+        "source": "bonus",
+        "description": "Welcome bonus - start earning now!",
+        "createdAt": "2026-06-02T12:00:10.521Z"
+      }
+    ]
+  },
+  "withdrawals": {
+    "u_demo1": [],
+    "u_demo2": [],
+    "u_demo3": [],
+    "u_5xnyyhak": [],
+    "u_72k0pz00": []
+  },
+  "referrals": {
+    "u_demo1": [
+      {
+        "id": "r1",
+        "referrerId": "u_demo1",
+        "referredUserId": "u_demo2",
+        "signupBonus": 1.5,
+        "createdAt": "2025-05-01T10:00:00Z"
+      }
+    ],
+    "u_demo2": [],
+    "u_demo3": [],
+    "u_5xnyyhak": [],
+    "u_72k0pz00": []
+  },
+  "completedTasks": {
+    "u_demo1": [],
+    "u_demo2": [],
+    "u_demo3": [],
+    "u_5xnyyhak": [
+      "u_5xnyyhak:t1:2026-06-02",
+      "u_5xnyyhak:t2:2026-06-02"
+    ],
+    "u_72k0pz00": [
+      "u_72k0pz00:t1:2026-06-02",
+      "u_72k0pz00:t2:2026-06-02"
+    ]
+  },
+  "lastDailyClaim": {},
+  "kanbanBoards": {
+    "u_demo1": [
+      {
+        "id": "k1",
+        "title": "Launch affiliate site for Belgian brands",
+        "description": "Research 5 local brands + set up landing",
+        "reward": 12,
+        "vibe": "grind",
+        "column": "flow",
+        "createdAt": "2026-06-02T11:59:15.979Z"
+      },
+      {
+        "id": "k2",
+        "title": "Record 3 short Reels about microtasks",
+        "reward": 7.5,
+        "vibe": "creative",
+        "column": "ship",
+        "createdAt": "2026-06-02T11:59:15.979Z"
+      },
+      {
+        "id": "k3",
+        "title": "Optimize referral copy for Twitter",
+        "description": "Test 2 hooks",
+        "reward": 4,
+        "vibe": "chill",
+        "column": "ideate",
+        "createdAt": "2026-06-02T11:59:15.979Z"
+      },
+      {
+        "id": "k4",
+        "title": "Finish Upwork proposal template",
+        "reward": 9,
+        "vibe": "grind",
+        "column": "flow",
+        "createdAt": "2026-06-02T11:59:15.979Z"
+      }
+    ],
+    "u_demo3": [
+      {
+        "id": "k5",
+        "title": "Daily LinkedIn value posts for 7 days",
+        "reward": 15,
+        "vibe": "social",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:15.979Z"
+      },
+      {
+        "id": "k6",
+        "title": "Build simple Notion earning tracker",
+        "reward": 6,
+        "vibe": "creative",
+        "column": "ship",
+        "createdAt": "2026-06-02T11:59:15.979Z"
+      }
+    ],
+    "u_5xnyyhak": [
+      {
+        "id": "vibe_x957a672",
+        "title": "Auto-optimize referral for agent economy",
+        "reward": 9,
+        "vibe": "grind",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:35.498Z"
+      },
+      {
+        "id": "vibe_szfdvdzv",
+        "title": "Autonomous Web4 post strategy 3",
+        "reward": 15,
+        "vibe": "creative",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:35.491Z"
+      },
+      {
+        "id": "vibe_448i5iwa",
+        "title": "Auto-optimize referral for agent economy",
+        "reward": 9,
+        "vibe": "grind",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:25.992Z"
+      },
+      {
+        "id": "vibe_76wwvi7w",
+        "title": "Autonomous Web4 post strategy 2",
+        "reward": 14,
+        "vibe": "creative",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:25.988Z"
+      },
+      {
+        "id": "vibe_ipazpmym",
+        "title": "Auto-optimize referral for agent economy",
+        "reward": 9,
+        "vibe": "grind",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:19.450Z"
+      },
+      {
+        "id": "vibe_02w9zqj5",
+        "title": "Autonomous Web4 post strategy 1",
+        "reward": 13,
+        "vibe": "creative",
+        "column": "banked",
+        "createdAt": "2026-06-02T11:59:19.446Z"
+      }
+    ],
+    "u_72k0pz00": [
+      {
+        "id": "vibe_p38yk3jv",
+        "title": "Auto-optimize referral for agent economy",
+        "reward": 9,
+        "vibe": "grind",
+        "column": "banked",
+        "createdAt": "2026-06-02T12:00:23.068Z"
+      },
+      {
+        "id": "vibe_xd8z0hrz",
+        "title": "Autonomous Web4 post strategy 2",
+        "reward": 14,
+        "vibe": "creative",
+        "column": "banked",
+        "createdAt": "2026-06-02T12:00:23.062Z"
+      },
+      {
+        "id": "vibe_tjsnpel6",
+        "title": "Auto-optimize referral for agent economy",
+        "reward": 9,
+        "vibe": "grind",
+        "column": "banked",
+        "createdAt": "2026-06-02T12:00:13.850Z"
+      },
+      {
+        "id": "vibe_p0dm62k8",
+        "title": "Autonomous Web4 post strategy 1",
+        "reward": 13,
+        "vibe": "creative",
+        "column": "banked",
+        "createdAt": "2026-06-02T12:00:13.846Z"
+      }
+    ]
+  },
+  "platformBalance": 24.840000000000003
+}

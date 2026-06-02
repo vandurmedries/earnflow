@@ -5,7 +5,8 @@ import {
   registerUser, loginUser, claimDaily, completeTask, completeOffer,
   requestWithdrawal, getUserDashboard, getUserEarnings, getReferralStats,
   sanitizeUser, getUserById, creditPassive,
-  getKanbanBoard, createVibeCard, moveVibeCard, deleteVibeCard, getKanbanStats
+  getKanbanBoard, createVibeCard, moveVibeCard, deleteVibeCard, getKanbanStats,
+  getPlatformBalance, payoutToBank
 } from '../lib/store';
 import { setSessionCookie, clearSessionCookie, getCurrentUserId } from '../lib/auth';
 import { getBaseUrl } from '../lib/store';
@@ -237,6 +238,15 @@ export async function verifyProPurchase(sessionId: string) {
     const { upgradeUserToPro } = await import('../lib/store');
     upgradeUserToPro(userId);
     return { success: true };
+  } catch (e: any) {
+    return { error: e.message };
+  }
+}
+
+export async function payoutToOwner(amount: number) {
+  try {
+    const res = await payoutToBank(amount);
+    return { success: true, ...res };
   } catch (e: any) {
     return { error: e.message };
   }
