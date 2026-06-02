@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe, PRO_BOOST_AMOUNT } from '../../../../lib/stripe';
+import { getStripe, PRO_BOOST_AMOUNT } from '../../../../lib/stripe';
 import { getCurrentUserId } from '../../../../lib/auth';
 
 export async function POST(req: NextRequest) {
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const successUrl = `${origin}/pro/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/wallet`;
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {

@@ -9,7 +9,7 @@ import {
 } from '../lib/store';
 import { setSessionCookie, clearSessionCookie, getCurrentUserId } from '../lib/auth';
 import { getBaseUrl } from '../lib/store';
-import { stripe, PRO_BOOST_AMOUNT } from '../lib/stripe';
+import { getStripe, PRO_BOOST_AMOUNT } from '../lib/stripe';
 
 export async function registerAction(formData: FormData) {
   const email = String(formData.get('email') || '').trim();
@@ -196,7 +196,7 @@ export async function createProBoostCheckoutAction() {
 
   try {
     const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -225,7 +225,7 @@ export async function createProBoostCheckoutAction() {
 
 export async function verifyProPurchase(sessionId: string) {
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
     if (session.payment_status !== 'paid') {
       return { error: 'Payment not completed' };
     }
