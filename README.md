@@ -50,7 +50,7 @@ After the first deploy, update `NEXT_PUBLIC_BASE_URL` to the exact production UR
 
 **Pro Boost** is live: users can buy $4.99 one-time → get 2x earnings + instant cashouts.
 
-## Making It Earn REAL Money
+## Making It Earn REAL Money + Fully Autonomous (Web4)
 
 This is a **complete system** ready for real use:
 
@@ -59,6 +59,17 @@ This is a **complete system** ready for real use:
    - The "Pro Boost" ($4.99) is already implemented with real Stripe Checkout.
    - Pro users get 2x rewards and better cashout terms — this is how you make real recurring revenue while users earn more.
 3. **Persistence**: Current store is in-memory (great for demos). For production add `@vercel/kv` or Vercel Postgres + Prisma (swap the Maps in lib/store.ts — ~30 lines of changes).
+4. **Fully Autonomous Web4 Mode** (new!):
+   - Public `/api/agent/*` endpoints for registration, tasks, Kanban, earnings — designed for AI agents.
+   - `autonomous-earnflow-web4-agent.js` : Sense-Think-Act loop using Web4 protocol (decentralized agent ledger via Irys/Solana) + EarnFlow APIs.
+   - Agent autonomously: registers, claims daily, completes tasks, auto-creates & banks Kanban cards (prioritizing high-reward), posts earnings reports to Web4 spatial ledger.
+   - Run: `EARNBASE=https://earnflow-lovat.vercel.app node autonomous-earnflow-web4-agent.js`
+   - Web4 integration: uses web4-agent/ for identity, sense, post with #Web4 #Agent #EarnFlow tags + 2D coords.
+   - Search results from Web4 research (autonomous agents, A2A protocol, agentic web, on-chain economies) guided this: agents as primary earners in decentralized intelligent web.
+
+To run autonomous on live: update env in script, run the agent (it will earn in the per-request instance; for persistent multi-call autonomy add DB + long-running agent host).
+
+See web4-agent/ for full protocol, SKILL.md for agent instructions.
 
 ## Making It Earn REAL Money
 
