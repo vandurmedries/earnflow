@@ -29,24 +29,44 @@ Visit http://localhost:3000 — register or use the instant demo:
 - Email: `demo@earnflow.app`
 - Password: `demo123`
 
-## Deploy Online (Vercel)
+## Deploy Live to Vercel Right Now
 
-1. Push this folder to a GitHub repo (see script below).
-2. Go to [vercel.com/new](https://vercel.com/new) → Import the repo.
-3. (Optional) Add these env vars in Vercel dashboard for production:
-   - `JWT_SECRET` = any long random string
-   - `NEXT_PUBLIC_BASE_URL` = your final https://...vercel.app
-4. Deploy. Done. The whole earning system is live instantly.
+The code + Stripe integration is pushed and ready.
 
-Or use the MCP Vercel tools / GitHub tools from the agent.
+**Steps:**
+1. Go to https://vercel.com/new
+2. Click "Import Git Repository"
+3. Select the `vandurmedries/earnflow` repo (or your own fork)
+4. In "Environment Variables" add (use test keys from Stripe dashboard first):
+   - `STRIPE_SECRET_KEY` = sk_test_...
+   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` = pk_test_...
+   - `NEXT_PUBLIC_BASE_URL` = (you can set after first deploy or use a placeholder)
+   - `JWT_SECRET` = a long random string
+5. Deploy.
+
+Your live URL will be something like `https://earnflow-xxx.vercel.app`.
+
+After the first deploy, update `NEXT_PUBLIC_BASE_URL` to the exact production URL and redeploy once for correct referral links and Stripe success redirects.
+
+**Pro Boost** is live: users can buy $4.99 one-time → get 2x earnings + instant cashouts.
 
 ## Making It Earn REAL Money
 
 This is a **complete system** ready for real use:
 
-1. **Real payouts**: Add Stripe Connect or PayPal Payouts. The withdrawal request flow already deducts balance and creates auditable records. Just replace the "process" logic.
+1. **Real payouts**: The withdrawal flow deducts balance and records everything. Hook it up to Stripe Connect (recommended for platforms) or PayPal Payouts to send real money to users' accounts.
+2. **Monetize + boost platform revenue**:
+   - The "Pro Boost" ($4.99) is already implemented with real Stripe Checkout.
+   - Pro users get 2x rewards and better cashout terms — this is how you make real recurring revenue while users earn more.
+3. **Persistence**: Current store is in-memory (great for demos). For production add `@vercel/kv` or Vercel Postgres + Prisma (swap the Maps in lib/store.ts — ~30 lines of changes).
+
+## Making It Earn REAL Money
+
+This is a **complete system** ready for real use:
+
+1. **Real payouts**: Add Stripe Connect or PayPal Payouts. The withdrawal request flow already deducts balance and creates auditable records. Pro users get lower mins.
 2. **Monetize the platform**:
-   - Add Stripe one-time "Pro Earner" pack ($9–19) that doubles task rewards or removes daily limits.
+   - "Pro Boost" ($4.99 one-time) is already wired with real Stripe Checkout — gives buyers 2x earnings + instant cashouts.
    - Put real affiliate links in the offer wall (Amazon Associates, ClickBank, etc).
    - Run Google AdSense or Ezoic on the logged-out landing.
 3. **Legal**: Add your company details, terms, and tax forms (1099 etc in US). Current Belgian company notes exist in sibling projects.
