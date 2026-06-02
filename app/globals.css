@@ -1,26 +1,111 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --accent: #34d399;
+  --card: #18181b;
+  --card-hover: #27272a;
+  --border: #3f3f46;
+  --success: #22c55e;
+  --warning: #eab308;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans);
+}
+
+/* Money earning platform polish */
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  transition: transform 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  transition: all 0.1s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: white;
+  transition: all 0.1s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--card-hover);
+  border-color: var(--primary);
+}
+
+.balance {
+  font-feature-settings: "tnum";
+}
+
+.earning-row {
+  transition: background-color 0.1s ease;
+}
+
+.earning-row:hover {
+  background-color: #27272a;
+}
+
+.task-card {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.modal {
+  animation: modalEnter 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.stat-number {
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-link {
+  transition: color 0.1s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--primary);
+}
+
+.money-green {
+  color: var(--primary);
 }
